@@ -1,5 +1,3 @@
-require("webduino-js");
-require("webduino-blockly");
 var express = require('express'),
      app = express(),
      server = require('http').createServer(app),
@@ -28,21 +26,6 @@ io.sockets.on('connection', function(socket) {
      }
   socket.on('send message', function(data){
           io.sockets.emit('new message', { 'msg': data, 'nick': socket.nickname},broadcast=true );
-          if(data=='開燈'){
-          	boardReady({device:'100MnzDM', multi: true}, function (board) {
-			    board.systemReset();
-			    board.samplingInterval = 250;
-			    led = getLed(board, 14);
-			    led.on();
-			})
-          }else if(data=='關燈'){
-          	  boardReady({device:'100MnzDM', multi: true}, function (board) {
-			    board.systemReset();
-			    board.samplingInterval = 250;
-			    led = getLed(board, 14);
-			    led.off();
-			})
-          }
      });
   socket.on('disconnect', function(data){
           if (!socket.nickname) return;
